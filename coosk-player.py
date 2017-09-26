@@ -5,7 +5,7 @@ import wx
 class mycoosk(wx.Frame):
     """docstring for mycoosk"""
     def __init__(self,parent,title ):
-        super(mycoosk, self).__init__(parent, title = title , size = (320,133) , )
+        super(mycoosk, self).__init__(parent, title = title , size = (320,173) )
         panel = wx.Panel(self)
 
         image = wx.Image("1.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
@@ -17,29 +17,45 @@ class mycoosk(wx.Frame):
         self.Bind(wx.EVT_BUTTON,self.image,self.button)
         self.button.SetDefault()
         # 载入图片的窗口
-    
-    #***************************************************************************************#    
-       
+        
+        self.CreateStatusBar()
+
+        self.filemenu = wx.Menu()
+        #设置菜单
+
+        self.filemenu.Append(wx.ID_ABOUT, u"About", u"about this program")
+        self.filemenu.AppendSeparator()
+        self.filemenu.Append(wx.ID_ABOUT, u"exit", u"终止应用程序")
+        #wx.ID_ABOUT和wx.ID_EXIT是wxWidgets提供的标准ID
+
         self.menuBar = wx.MenuBar()
-        self.menufile = wx.MenuFile()
-        self.menuBar.Append(self.menufile,"文件")
-        self.open = self.menufile.Append(-1,"打开","打开你想要播放的文件")
+        self.menuBar.Append(self.filemenu, u"flie")
+        self.SetMenuBar(self.menuBar)
+        self.Show(True)
+        #创建菜单栏
+               
+         
+
+    #***************************************************************************************#    
+          
+
+        
+
+    #***************************************************************************************#    
+        
 
 
-    #****************************************************************************************#
-
-        self.SetMenuBar(menuBar)
-        self.Centre() 
-        self.Show(True) 
 
     def image(self,event):
         print self.button.GetStringSelection(),' is clicked from Radio Box' 
 
- 
-
+    
 
 app = wx.App()
 
-mycoosk(None,"COOSK")
+
+frame = mycoosk(None, 'COOSK')
+
+frame.Show()
 
 app.MainLoop()
