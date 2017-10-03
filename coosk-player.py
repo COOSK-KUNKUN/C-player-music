@@ -3,6 +3,7 @@
 import wx
 import os
 import wx.lib.buttons as buttons
+import wx.media
 from win32com.client import Dispatch
 
 
@@ -32,21 +33,8 @@ class mycoosk(wx.Frame):
         
         ###########################################################################################
                
-        self.filemenu = wx.Menu()
-        #设置菜单
 
         self.CreateStatusBar()
-
-        self.open = self.filemenu.Append(wx.ID_ABOUT, u"打开", u"Open the music")
-        self.filemenu.AppendSeparator()
-        self.exit = self.filemenu.Append(wx.ID_EXIT, u"退出", u"Exit the software")
-        #wx.ID_ABOUT和wx.ID_EXIT是wxWidgets提供的标准ID
-
-        self.menuBar = wx.MenuBar()
-        self.menuBar.Append(self.filemenu, u"文件")
-        self.SetMenuBar(self.menuBar)
-        self.Show(True)
-        #创建菜单栏
                
          
 
@@ -72,7 +60,7 @@ class mycoosk(wx.Frame):
         self.button.SetDefault()
         
         image_play = wx.Image("stop.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
-
+        ##########################################################################
 
         image_next = wx.Image("next.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
         # 下一首音乐键图标
@@ -81,8 +69,27 @@ class mycoosk(wx.Frame):
         self.Bind(wx.EVT_BUTTON,self.image_next,self.button)
         self.button.SetDefault()
         
-        image_next = wx.Image("next.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
+        image_previous = wx.Image("next.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
+        ############################################################################
+        
+        image_previous = wx.Image("previous.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
+        # 上一首音乐键图标
+       
+        self.button = wx.BitmapButton(panel, -1,image_previous, pos = (162,45),size=(31,31))
+        self.Bind(wx.EVT_BUTTON,self.image_previous,self.button)
+        self.button.SetDefault()
+        
+        image_next = wx.Image("previous.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
+        ############################################################################
 
+        self.open = image_open = wx.Image("open.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
+        # 
+       
+        self.button = wx.BitmapButton(panel, -1,image_open, pos = (126,45),size=(31,31))
+        self.Bind(wx.EVT_BUTTON,self.OnOpen,self.button)
+        self.button.SetDefault()
+        
+        image_open = wx.Image("open.bmp",wx.BITMAP_TYPE_BMP).ConvertToBitmap()
 
 
 
@@ -90,8 +97,7 @@ class mycoosk(wx.Frame):
         
         # 各种事件
 
-        self.Bind(wx.EVT_MENU,self.OnOpen,self.open)
-        self.Bind(wx.EVT_MENU,self.Exit,self.exit)
+
         self.wmp=Dispatch('WMPlayer.OCX')
 
     def image(self,event):
@@ -102,7 +108,11 @@ class mycoosk(wx.Frame):
         pass   
 
     def image_stop(self,event):
-        self.wmp.controls.stop()
+        self.wmp.controls.stop()     
+        pass
+
+    def image_previous(self,event):
+        self.wmp.controls.previous()
         pass
 
     def image_next(self,event):
